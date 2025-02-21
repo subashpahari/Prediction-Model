@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Appendicitis Predictor</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: #ff9800;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            background: #ff5722;
+            transform: scale(1.05);
+        }
+        .alert-info {
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 15px;
+            padding: 15px;
+        }
+        .icon {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <h1 class="text-center mb-4"><i class="fa-solid fa-stethoscope"></i> Appendicitis Predictor</h1>
+    <div class="card">
+        <form action="/predict" method="post">
+            <!-- Appendix Diameter -->
+            <div class="form-group">
+                <label for="AppendixDiameter"><i class="fa-solid fa-ruler-combined icon"></i> Appendix Diameter:</label>
+                <select id="AppendixDiameter" name="AppendixDiameter" class="form-control" required>
+                    <option value="3">+++</option>
+                    <option value="2">++</option>
+                    <option value="1">+</option>
+                </select>
+            </div>
+
+            <!-- Rebound Tenderness -->
+            <div class="form-group">
+                <label for="ReboundTenderness"><i class="fa-solid fa-hands icon"></i> Rebound Tenderness:</label>
+                <select id="ReboundTenderness" name="ReboundTenderness" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Coughing Pain -->
+            <div class="form-group">
+                <label for="CoughingPain"><i class="fa-solid fa-lungs icon"></i> Coughing Pain:</label>
+                <select id="CoughingPain" name="CoughingPain" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Free Fluids -->
+            <div class="form-group">
+                <label for="FreeFluids"><i class="fa-solid fa-water icon"></i> Free Fluids:</label>
+                <select id="FreeFluids" name="FreeFluids" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Migratory Pain -->
+            <div class="form-group">
+                <label for="MigratoryPain"><i class="fa-solid fa-walking icon"></i> Migratory Pain:</label>
+                <select id="MigratoryPain" name="MigratoryPain" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Body Temperature -->
+            <div class="form-group">
+                <label for="BodyTemp"><i class="fa-solid fa-temperature-high icon"></i> Body Temperature (°C):</label>
+                <input id="BodyTemp" type="number" name="BodyTemp" class="form-control" step="0.1" placeholder="e.g., 37.0" required>
+            </div>
+
+            <!-- Ketones In Urine -->
+            <div class="form-group">
+                <label for="KetonesInUrine"><i class="fa-solid fa-flask icon"></i> Ketones In Urine:</label>
+                <select id="KetonesInUrine" name="KetonesInUrine" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Nausea -->
+            <div class="form-group">
+                <label for="Nausea"><i class="fa-solid fa-head-side-virus icon"></i> Nausea:</label>
+                <select id="Nausea" name="Nausea" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- WBC Count -->
+            <div class="form-group">
+                <label for="WBCCount"><i class="fa-solid fa-dna icon"></i> WBC Count (cells/µL):</label>
+                <input id="WBCCount" type="number" name="WBCCount" class="form-control" step="1" placeholder="e.g., 8000" required>
+            </div>
+
+            <!-- Neutrophil Percentage -->
+            <div class="form-group">
+                <label for="NeutrophilPerc"><i class="fa-solid fa-percentage icon"></i> Neutrophil Percentage (%):</label>
+                <input id="NeutrophilPerc" type="number" name="NeutrophilPerc" class="form-control" step="0.1" min="0" max="100" placeholder="e.g., 75.0" required>
+            </div>
+
+            <!-- CRP Entry -->
+            <div class="form-group">
+                <label for="CRPEntry"><i class="fa-solid fa-vial icon"></i> CRP Entry (mg/L):</label>
+                <input id="CRPEntry" type="number" name="CRPEntry" class="form-control" step="0.1" placeholder="e.g., 5.0" required>
+            </div>
+
+            <!-- Peritonitis -->
+            <div class="form-group">
+                <label for="Peritonitis"><i class="fa-solid fa-exclamation-triangle icon"></i> Peritonitis:</label>
+                <select id="Peritonitis" name="Peritonitis" class="form-control" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <input type="submit" value="Predict" class="btn btn-primary btn-lg">
+            </div>
+        </form>
+        {% if prediction_text %}
+        <div class="mt-4 alert alert-info text-center">
+            <h2>{{ prediction_text }}</h2>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
