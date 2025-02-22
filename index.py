@@ -82,7 +82,6 @@ print("Mean cross_val accuracy Score:", scores.mean())
 print("Standard Deviation of cross_val accuracy Scores:", scores.std())
 
 rf_model.fit(x_train,y_train)
-joblib.dump(rf_model, 'rf_model.pkl')
 
 
 
@@ -141,7 +140,9 @@ print (f"Negative predictive value : {test_npv:.3f}({test_npv*100:.2f}%)")
 
 test_acu=accuracy_score(y_test,y_thres_test)
 print("Test Accuracy score:",test_acu)
-rf_model.fit(x_temp,y_temp)
+rf_model2 = rf_model.fit(x_temp,y_temp)
+joblib.dump(rf_model2, 'rf_model.pkl')
+
 y_test1_prob=rf_model.predict_proba(x_test)[:,1]
 y_thres1_test=(y_test1_prob >= threshold).astype(int)
 auc_score1 = roc_auc_score(y_test, y_test1_prob)
